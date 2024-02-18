@@ -1,0 +1,44 @@
+sequenceDiagram
+
+    participant browser
+    participant server
+
+    %% Starting ex
+
+    Note right of browser: The user creates a new note by typing text into the text box and clicking save button
+    
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note , payload: {note: textEntered}
+    activate server    
+    Note left of server: The server saves the new note to the DB
+    server-->>browser:  HTTP status code 302 (URL redirect), Location: /exampleapp/notes
+    deactivate server
+
+    Note right of browser: The browser reloads the Notes page
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+    activate server
+    server-->>browser: HTML document
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate server
+    server-->>browser: the css file
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    activate server
+    server-->>browser: the JavaScript file
+    deactivate server
+
+    Note right of browser: The browser starts executing the JavaScript code that fetches the JSON from the server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    Note left of server: The server sends the notes including the new created note
+    server-->>browser: [{ "content": "HTML is easy", "date": "2023-1-1" }, ... ]
+    deactivate server
+
+    Note right of browser: The browser executes the callback function that renders the notes
+
+
+   

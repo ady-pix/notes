@@ -1,0 +1,14 @@
+sequenceDiagram
+
+    participant browser
+    participant server
+
+    Note right of browser: The user creates a new note by typing text into the text box and clicking save button
+    
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa , payload: {content: "NewNoteText", date: "2024-02-18T10:47:29.509Z"}
+    activate server    
+    Note left of server: The server saves the new note to the DB
+    server-->>browser:  HTTP status code 201 (Created)
+    deactivate server
+
+    Note right of browser: The browser executes the callback function that renders the notes
